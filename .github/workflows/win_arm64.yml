@@ -14,6 +14,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Cache Flutter
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~\AppData\Local\Pub\Cache
+            build
+          key: flutter-windows-arm64-${{ hashFiles('pubspec.lock') }}
+
       - name: Setup flutter
         uses: subosito/flutter-action@v2
         with:
@@ -23,6 +31,10 @@ jobs:
       - name: Apply Patch
         shell: pwsh
         run: lib/scripts/patch.ps1 windows
+
+      - name: Set and Extract version
+        shell: pwsh
+        run: lib/scripts/build.ps1
 
       - name: Get dependencies
         run: flutter pub get
