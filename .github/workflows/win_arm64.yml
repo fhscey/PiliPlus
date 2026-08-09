@@ -46,6 +46,6 @@ jobs:
       - name: Upload Debug Build
         uses: actions/upload-artifact@v7
         with:
-          archive: false
+          archive: true
           name: Windows-arm64-debug
           path: build/windows/arm64/runner/Debug/
