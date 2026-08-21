@@ -51,8 +51,11 @@ jobs:
       - name: Prepare Upload
         run: |
           mkdir -p Release/PiliPlus-Win
+          mkdir -p Release/PiliPlus-Win-PDB
           mkdir -p PiliPlus-Win-Setup
           mv build/windows/arm64/runner/Release/* Release/PiliPlus-Win/
+          mv build/windows/arm64/runner/Release/*.pdb Release/PiliPlus-Win-PDB/ -ErrorAction SilentlyContinue
+          Get-ChildItem "build/windows/arm64/plugins/*/Release/*.pdb" -ErrorAction SilentlyContinue | Move-Destination "Release/PiliPlus-Win-PDB/"
           mv dist/**/*.exe PiliPlus-Win-Setup/PiliPlus_windows_${{env.version}}_arm64_setup.exe
 
       - name: Compress
@@ -83,3 +86,10 @@ jobs:
           archive: false
           name: Windows-setup-arm64-release
           path: PiliPlus-Win-Setup/PiliPlus_windows_*.exe
+
+      - name: Upload windows PDBs
+        uses: actions/upload-artifact@v7
+        with:
+          archive: true
+          name: Windows-arm64-pdb
+          path: Release/PiliPlus-Win-PDB/
