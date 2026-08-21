@@ -48,4 +48,6 @@ jobs:
         with:
           archive: true
           name: Windows-arm64-debug
-          path: build/windows/arm64/runner/Debug/
+          path: |
+            build/windows/arm64/runner/Debug/
+            build/windows/arm64/plugins/
