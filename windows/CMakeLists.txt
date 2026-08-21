@@ -53,6 +53,14 @@ add_subdirectory(${FLUTTER_MANAGED_DIR})
 add_subdirectory("runner")
 
 
+# Generate PDB debug symbol files for every target (including plugin DLLs
+# such as media_kit_video_plugin.dll), so that crash dumps can be
+# symbolicated. Works in all build configurations (Debug/Profile/Release).
+if(MSVC)
+  add_compile_options(/Zi)
+  add_link_options(/DEBUG)
+endif()
+
 # Generated plugin build rules, which manage building the plugins and adding
 # them to the application.
 include(flutter/generated_plugins.cmake)
