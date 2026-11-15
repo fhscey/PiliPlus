@@ -1,3 +1,4 @@
+import 'package:PiliPlus/common/widgets/badge.dart';
 import 'package:PiliPlus/common/widgets/flutter/live_list_view.dart';
 import 'package:PiliPlus/common/widgets/flutter/popup_menu.dart';
 import 'package:PiliPlus/common/widgets/gesture/tap_gesture_recognizer.dart';
@@ -91,6 +92,17 @@ class LiveRoomChatPanel extends StatelessWidget {
                         child: Text.rich(
                           TextSpan(
                             children: [
+                              if (item.extra.mid == liveRoomController.ruid)
+                                const WidgetSpan(
+                                  child: Padding(
+                                    padding: .only(right: 4),
+                                    child: PBadge(
+                                      text: '主播',
+                                      isStack: false,
+                                      type: .line_primary,
+                                    ),
+                                  ),
+                                ),
                               ?medal,
                               TextSpan(
                                 text: '${item.name}: ',
@@ -337,7 +349,7 @@ class LiveRoomChatPanel extends StatelessWidget {
           onTap: () => Get.toNamed('/member?mid=${item.extra.mid}'),
           child: const Text('去TA的个人空间', style: TextStyle(fontSize: 13)),
         ),
-        if (liveRoomController.isLogin) ...[
+        if (liveRoomController.isMainLogin) ...[
           PopupMenuItem(
             height: 38,
             onTap: () => liveRoomController.onAtUser(item),
